@@ -6,10 +6,10 @@ import {
   FormLabel,
   Input,
 } from '@chakra-ui/react'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 import { app } from "../lib/firebase"
 
-const Signup = () => {
+const Login = () => {
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -23,8 +23,27 @@ const Signup = () => {
   }
   const handleSubmit = async () => {
     console.log({ email, password })
-    await createUserWithEmailAndPassword(auth, email, password)
-    router.push("/")
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+      router.push("/")
+    }
+    catch (e: any) {
+      let errorCode = e.code;
+      let errorMessage = e.message;
+      if (errorCode === 'auth/wrong-password') {
+        alert('パスワードが異なります');
+      } else if (errorCode === 'auth/invalid-email') {
+        alert('メールアドレスが不正です');
+      } else if (errorCode === 'auth/user-disabled') {
+        alert('無効なユーザです');
+      } else if (errorCode === 'auth/user-not-found') {
+        alert('登録されていないユーザです');
+      }
+      else {
+        alert(errorMessage);
+      }
+      console.log(e);
+    }
   }
 
   return (
@@ -46,10 +65,10 @@ const Signup = () => {
         />
       </FormControl>
       <Button onClick={handleSubmit}>
-        登録
+        ログイン
       </Button>
     </>
   )
 }
 
-export default Signup
+export default Login
