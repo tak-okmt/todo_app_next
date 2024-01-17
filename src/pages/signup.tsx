@@ -1,10 +1,12 @@
 import React, { useState } from "react"
 import { useRouter } from "next/router"
+import NextLink from "next/link"
 import {
   Button,
   FormControl,
   FormLabel,
   Input,
+  Link,
 } from '@chakra-ui/react'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 import { app } from "../lib/firebase"
@@ -48,6 +50,9 @@ const Signup = () => {
       <Button onClick={handleSubmit}>
         登録
       </Button>
+      <Link as={NextLink} href="/login">
+        ログインはこちら
+      </Link>
     </>
   )
 }
