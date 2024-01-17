@@ -1,18 +1,20 @@
 import React, { useState } from "react"
 import { useRouter } from "next/router"
+import NextLink from "next/link"
 import {
   Button,
   FormControl,
   FormLabel,
   Input,
+  Link,
 } from '@chakra-ui/react'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 import { app } from "../lib/firebase"
 
 const Login = () => {
   const router = useRouter()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState<any>("")
+  const [password, setPassword] = useState<any>("")
   const auth = getAuth(app)
 
   const handleChangeEmail = (e: any) => {
@@ -54,6 +56,9 @@ const Login = () => {
       <Button onClick={handleSubmit}>
         ログイン
       </Button>
+      <Link as={NextLink} href="/signup">
+        新規登録はこちら
+      </Link>
     </>
   )
 }
