@@ -26,23 +26,10 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password)
       router.push("/")
+      alert('ログインしました')
     }
     catch (e: any) {
-      let errorCode = e.code;
-      let errorMessage = e.message;
-      if (errorCode === 'auth/wrong-password') {
-        alert('パスワードが異なります');
-      } else if (errorCode === 'auth/invalid-email') {
-        alert('メールアドレスが不正です');
-      } else if (errorCode === 'auth/user-disabled') {
-        alert('無効なユーザです');
-      } else if (errorCode === 'auth/user-not-found') {
-        alert('登録されていないユーザです');
-      }
-      else {
-        alert(errorMessage);
-      }
-      console.log(e);
+      alert('ログインに失敗しました')
     }
   }
 
