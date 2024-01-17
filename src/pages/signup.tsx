@@ -13,8 +13,8 @@ import { app } from "../lib/firebase"
 
 const Signup = () => {
   const router = useRouter()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState<any>("")
+  const [password, setPassword] = useState<any>("")
   const auth = getAuth(app)
 
   const handleChangeEmail = (e: any) => {
@@ -50,7 +50,7 @@ const Signup = () => {
       <Button onClick={handleSubmit}>
         登録
       </Button>
-      <Link as={NextLink} href="/login">
+      <Link as={NextLink} href="/signin">
         ログインはこちら
       </Link>
     </>
