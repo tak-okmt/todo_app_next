@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from "react"
-import { Heading, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
+import NextLink from "next/link"
+import { Button, Heading, Link, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
 import { Todo, TodoContext } from "./_app"
 import FilterTodoForm from "@/components/FilterTodoForm";
 import SortTodoForm from "@/components/SortTodoForm";
-
-// TODO:
-// 1. TODO作成ボタン
 
 export type Filter = {
   title?: string;
@@ -21,8 +19,14 @@ const Todos = () => {
   const [sort, setSort] = useState<Sort>("")
   const [displayedTodos, setDisplayedTodos] = useState<Todo[]>([])
 
+  const statusForDisplay = {
+    notStartYet: "未着手",
+    inProgress: "進行中",
+    completed: "完了"
+  }
+
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const target = e.target;
+    const target = e.target
     setFilter({ ...filter, [target.name]: target.value })
   }
 
@@ -78,6 +82,10 @@ const Todos = () => {
         handleSortChange={handleSortChange}
       />
 
+      <Button as={NextLink} href="/todos/create">
+        新規Todo作成へ
+      </Button>
+
       <TableContainer>
         <Table>
           <TableCaption>todo一覧</TableCaption>
@@ -94,7 +102,7 @@ const Todos = () => {
                 <Tr key={todo.id}>
                   <Td>{todo.title}</Td>
                   <Td>{todo.detail}</Td>
-                  <Td>{todo.status}</Td>
+                  <Td>{statusForDisplay[todo.status]}</Td>
                 </Tr>
               )
             })}

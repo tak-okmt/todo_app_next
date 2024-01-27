@@ -6,7 +6,7 @@ import { createContext, useState } from 'react';
 export type Todo = {
   id: number;
   title: string;
-  detail: string;
+  detail?: string;
   status: "notStartYet" | "inProgress" | "completed";
   createdAt: Date;
 }
