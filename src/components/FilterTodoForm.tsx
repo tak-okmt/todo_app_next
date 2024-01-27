@@ -25,9 +25,9 @@ export default function FilterTodoForm({
         <FormLabel>ステータス</FormLabel>
         <Select name="status" value={filter.status} onChange={(e) => handleFilterChange(e)}>
           <option value="">すべて</option>
-          <option value="notStartYet">notStartYet</option>
-          <option value="inProgress">inProgress</option>
-          <option value="completed">completed</option>
+          <option value="notStartYet">未着手</option>
+          <option value="inProgress">進行中</option>
+          <option value="completed">完了</option>
         </Select>
       </FormControl>
     </>

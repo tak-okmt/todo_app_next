@@ -8,6 +8,7 @@ export type Todo = {
   title: string;
   detail: string;
   status: "notStartYet" | "inProgress" | "completed";
+  createdAt: Date;
 }
 
 type ContextType = {
