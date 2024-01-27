@@ -27,9 +27,10 @@ const TodosPage: NextPage = () => {
       <Heading as='h1'>todo詳細</Heading>
       {targetTodo ? (
         <>
-          <div>{targetTodo.title}</div>
-          <div>{targetTodo.detail}</div>
-          <div>{statusForDisplay[targetTodo.status]}</div>
+          <div>タイトル：{targetTodo.title}</div>
+          <div>詳細：{targetTodo.detail}</div>
+          <div>ステータス：{statusForDisplay[targetTodo.status]}</div>
+          <div>作成日：{new Intl.DateTimeFormat('ja-JP').format(targetTodo.createdAt)}</div>
           <div>
             <Button as={NextLink} href={`/todos/${targetTodo.id}/edit`}>
               編集
