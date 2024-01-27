@@ -9,8 +9,7 @@ export type Filter = {
   title?: string;
   status?: "notStartYet" | "inProgress" | "completed";
 }
-// export type Sort = "asc" | "desc" | ""
-export type Sort = string // handleSortChangeでのsetSortへの代入で型エラーが出るので一旦こちら
+export type Sort = "asc" | "desc" | ""
 
 export const statusForDisplay = {
   notStartYet: "未着手",
@@ -57,7 +56,7 @@ const Todos = () => {
   }
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value: Sort = e.target.value
+    const value: Sort = e.target.value as Sort
     setSort(value)
   }
 

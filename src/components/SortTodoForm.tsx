@@ -5,8 +5,7 @@ export default function SortTodoForm({
   sort,
   handleSortChange
 }: {
-  sort: string,
-  // sort: Sort,
+  sort: Sort,
   handleSortChange: any
 }) {
   return (
