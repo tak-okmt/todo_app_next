@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Heading, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
 import { Todo, TodoContext } from "./_app"
-import FilterTodoForm from "@/components/filterToDoForm";
+import FilterTodoForm from "@/components/FilterTodoForm";
 import SortTodoForm from "@/components/SortTodoForm";
 
 // TODO:
