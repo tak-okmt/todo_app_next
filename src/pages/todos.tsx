@@ -12,18 +12,18 @@ export type Filter = {
 // export type Sort = "asc" | "desc" | ""
 export type Sort = string // handleSortChangeでのsetSortへの代入で型エラーが出るので一旦こちら
 
+export const statusForDisplay = {
+  notStartYet: "未着手",
+  inProgress: "進行中",
+  completed: "完了"
+}
+
 const Todos = () => {
   const { todos, setTodos } = useContext(TodoContext)
 
   const [filter, setFilter] = useState<Filter>({})
   const [sort, setSort] = useState<Sort>("")
   const [displayedTodos, setDisplayedTodos] = useState<Todo[]>([])
-
-  const statusForDisplay = {
-    notStartYet: "未着手",
-    inProgress: "進行中",
-    completed: "完了"
-  }
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const target = e.target
@@ -100,7 +100,11 @@ const Todos = () => {
             {displayedTodos.map((todo) => {
               return (
                 <Tr key={todo.id}>
-                  <Td>{todo.title}</Td>
+                  <Td>
+                    <Link as={NextLink} href={`/todos/${todo.id}`}>
+                      {todo.title}
+                    </Link>
+                  </Td>
                   <Td>{todo.detail}</Td>
                   <Td>{statusForDisplay[todo.status]}</Td>
                 </Tr>
