@@ -1,42 +1,38 @@
-import React, { useContext, useState } from "react"
 import NextLink from "next/link"
-import { Todo, TodoContext } from "../_app"
+import { Todo, TodoContext } from "@/pages/_app"
 import { Button, FormControl, FormLabel, Heading, Input, Link, Select } from "@chakra-ui/react"
 import { useRouter } from "next/router"
+import { useContext, useEffect, useState } from "react"
 
-const TodoCreate = () => {
+const TodoEdit = () => {
   const router = useRouter()
+  const { id } = router.query
   const { todos, setTodos } = useContext(TodoContext)
-  const [todoId, setTodoId] = useState<number>(todos.length + 1)
-  const [todo, setTodo] = useState<Todo>({
-    id: todoId,
-    title: "",
-    status: "notStartYet",
-    createdAt: new Date()
-  })
+  const targetTodo = todos.find((todo) => todo.id === Number(id)) as Todo
+  const [editTodo, setEditTodo] = useState<Todo>(targetTodo)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const target = e.target
-    setTodo({ ...todo, [target.name]: target.value })
+    setEditTodo({ ...editTodo, [target.name]: target.value })
   }
 
-  const handleCreateButtonClick = () => {
-    setTodos([...todos, todo])
-    setTodoId((prevId) => prevId + 1)
-    alert("新規todoの作成が完了しました")
-    router.push("/todos")
+  const handleSaveButtonClick = () => {
+    const todosExceptEditTodo = todos.filter((todo) => todo.id !== Number(id))
+    setTodos([...todosExceptEditTodo, editTodo])
+    alert("保存が完了しました")
+    router.push(`/todos/${id}`)
   }
 
   return (
     <>
-      <Heading as='h1'>新規Todo作成</Heading>
+      <Heading as='h1'>Todo編集</Heading>
       <FormControl>
         <FormLabel>タイトル</FormLabel>
         <Input
           type="text"
           id="title"
           name="title"
-          value={todo.title}
+          value={editTodo.title}
           onChange={(e) => handleInputChange(e)}
         />
       </FormControl>
@@ -46,25 +42,29 @@ const TodoCreate = () => {
           type="textarea"
           id="detail"
           name="detail"
-          value={todo.detail}
+          value={editTodo.detail}
           onChange={(e) => handleInputChange(e)}
         />
       </FormControl>
       <FormControl>
         <FormLabel>ステータス</FormLabel>
-        <Select name="status" value={todo.status} onChange={(e) => handleInputChange(e)}>
+        <Select name="status" value={editTodo.status} onChange={(e) => handleInputChange(e)}>
           <option value="notStartYet">未着手</option>
           <option value="inProgress">進行中</option>
           <option value="completed">完了</option>
         </Select>
       </FormControl>
-      <Button onClick={handleCreateButtonClick}>
-        作成する
+      <Button onClick={handleSaveButtonClick}>
+        保存する
       </Button>
+      <Link as={NextLink} href={`/todos/${id}`}>
+        Todo詳細へ戻る
+      </Link>
       <Link as={NextLink} href="/todos">
         Todo一覧へ戻る
       </Link>
     </>
   )
 }
-export default TodoCreate
+
+export default TodoEdit

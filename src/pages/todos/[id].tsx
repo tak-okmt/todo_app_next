@@ -28,7 +28,7 @@ const TodosPage: NextPage = () => {
       {targetTodo ? (
         <>
           <div>タイトル：{targetTodo.title}</div>
-          <div>詳細：{targetTodo.detail}</div>
+          <div>内容：{targetTodo.detail}</div>
           <div>ステータス：{statusForDisplay[targetTodo.status]}</div>
           <div>作成日：{new Intl.DateTimeFormat('ja-JP').format(targetTodo.createdAt)}</div>
           <div>

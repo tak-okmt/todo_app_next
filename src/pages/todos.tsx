@@ -18,7 +18,7 @@ export const statusForDisplay = {
 }
 
 const Todos = () => {
-  const { todos, setTodos } = useContext(TodoContext)
+  const { todos } = useContext(TodoContext)
 
   const [filter, setFilter] = useState<Filter>({})
   const [sort, setSort] = useState<Sort>("")
@@ -65,7 +65,7 @@ const Todos = () => {
     newArray = filteringTodos(todos)
     newArray = sortingTodos(newArray)
     setDisplayedTodos(newArray)
-  }, [filter, sort, todos]) // HACK: filter, sortのどちらか一方が変わらなくても毎回実行されてしまう状態
+  }, [filter, sort, todos]) // HACK: filter, sortのどちらか一方が変わらなくても毎回実行されてしまう状態なのでパフォーマンス的にはベストではない？
 
   return (
     <>
@@ -91,7 +91,7 @@ const Todos = () => {
           <Thead>
             <Tr>
               <Th>タイトル</Th>
-              <Th>詳細</Th>
+              <Th>内容</Th>
               <Th>ステータス</Th>
             </Tr>
           </Thead>
