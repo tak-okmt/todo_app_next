@@ -5,6 +5,7 @@ import {
   Button,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   Link,
 } from '@chakra-ui/react'
@@ -24,10 +25,9 @@ const Login = () => {
     setPassword(e.target.value)
   }
   const handleSubmit = async () => {
-    console.log({ email, password })
     try {
       await signInWithEmailAndPassword(auth, email, password)
-      router.push("/")
+      router.push("/todos")
       alert('ログインしました')
     }
     catch (e: any) {
@@ -37,6 +37,7 @@ const Login = () => {
 
   return (
     <>
+      <Heading as='h1'>ログイン</Heading>
       <FormControl isRequired>
         <FormLabel>メールアドレス</FormLabel>
         <Input
