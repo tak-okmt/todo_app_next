@@ -4,6 +4,10 @@ import { Button, Heading, Link, Table, TableCaption, TableContainer, Tbody, Td, 
 import { Todo, TodoContext } from "./_app"
 import FilterTodoForm from "@/components/FilterTodoForm";
 import SortTodoForm from "@/components/SortTodoForm";
+import { isUsersOwnTodo } from "@/lib/userOwnTodo";
+import { getAuth } from "firebase/auth";
+import { app } from "@/lib/firebase";
+import { handleLogoutClick } from "@/lib/logout";
 
 export type Filter = {
   title?: string;
@@ -24,6 +28,8 @@ const Todos = () => {
   const [sort, setSort] = useState<Sort>("")
   const [displayedTodos, setDisplayedTodos] = useState<Todo[]>([])
 
+  const currentUser = getAuth(app).currentUser
+
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const target = e.target
     setFilter({ ...filter, [target.name]: target.value })
@@ -31,6 +37,7 @@ const Todos = () => {
 
   const filteringTodos = (targetTodos: Todo[]) => {
     const newArray = targetTodos.filter((todo) => {
+      if (!isUsersOwnTodo(todo, currentUser)) return false
       if (filter.title && !todo.title.includes(filter.title)) {
         return false
       }
@@ -70,6 +77,20 @@ const Todos = () => {
   return (
     <>
       <Heading as='h1'>todo一覧</Heading>
+      <br />
+      <Button as={NextLink} href="/todos/create">
+        新規Todo作成へ
+      </Button>
+      {currentUser ? (
+        <Button onClick={handleLogoutClick}>ログアウト</Button>
+      ) : (
+        <Link as={NextLink} href="/signin">
+          ログインはこちら
+        </Link>
+      )}
+
+      <br />
+      <br />
 
       <FilterTodoForm
         filter={filter}
@@ -81,9 +102,8 @@ const Todos = () => {
         handleSortChange={handleSortChange}
       />
 
-      <Button as={NextLink} href="/todos/create">
-        新規Todo作成へ
-      </Button>
+      <br />
+      <br />
 
       <TableContainer>
         <Table>
