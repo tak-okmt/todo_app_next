@@ -5,6 +5,10 @@ import { useContext } from "react";
 import { TodoContext } from "../_app";
 import { statusForDisplay } from "../todos";
 import { Button, Heading, Link } from "@chakra-ui/react";
+import { deleteDoc, doc } from "firebase/firestore";
+import { app, db } from "@/lib/firebase";
+import { isUsersOwnTodo } from "@/lib/userOwnTodo";
+import { getAuth } from "firebase/auth";
 
 const TodosPage: NextPage = () => {
   const router = useRouter()
@@ -12,9 +16,12 @@ const TodosPage: NextPage = () => {
   const { todos, setTodos } = useContext(TodoContext)
   const targetTodo = todos.find((todo) => todo.id === Number(id))
 
-  const handleDeleteButtonClick = () => {
+  const currentUser = getAuth(app).currentUser
+
+  const handleDeleteButtonClick = async () => {
     const confirm = window.confirm("削除します。よろしいですか？")
     if (confirm) {
+      if (targetTodo) { await deleteDoc(doc(db, "todos", targetTodo.uid)) }
       const newArray = todos.filter((todo) => todo.id !== Number(id))
       setTodos(newArray)
       alert("todoの削除が完了しました")
@@ -25,7 +32,7 @@ const TodosPage: NextPage = () => {
   return (
     <>
       <Heading as='h1'>todo詳細</Heading>
-      {targetTodo ? (
+      {targetTodo && isUsersOwnTodo(targetTodo, currentUser) ? (
         <>
           <div>タイトル：{targetTodo.title}</div>
           <div>内容：{targetTodo.detail}</div>
