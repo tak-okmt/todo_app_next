@@ -5,6 +5,7 @@ import {
   Button,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   Link,
 } from '@chakra-ui/react'
@@ -24,13 +25,14 @@ const Signup = () => {
     setPassword(e.target.value)
   }
   const handleSubmit = async () => {
-    console.log({ email, password })
     await createUserWithEmailAndPassword(auth, email, password)
-    router.push("/")
+    alert("新規登録が完了しました")
+    router.push("/todos")
   }
 
   return (
     <>
+      <Heading as='h1'>新規登録</Heading>
       <FormControl isRequired>
         <FormLabel>メールアドレス</FormLabel>
         <Input
