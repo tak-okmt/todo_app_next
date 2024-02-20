@@ -17,6 +17,7 @@ export default function Home() {
   return (
     <>
       {currentUser ? (
+        // TODO ログアウトなど複数箇所で使うものはコンポーネント化したいですね
         <Button onClick={handleLogoutClick}>ログアウト</Button>
       ) : (
         <Button as={NextLink} href="/signin">ログインはこちら</Button>
